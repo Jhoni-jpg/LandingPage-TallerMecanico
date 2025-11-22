@@ -1,0 +1,25 @@
+---
+import "../styles/main.css";
+import ChatBot from "../components/ChatBot.jsx";
+import Header from "../components/Header.jsx";
+import Consejos from "../components/home/Consejos.jsx";
+import Hero from "../components/home/Hero.astro";
+import Whatsappcontainer from "../components/Whatsappcontainer.astro";
+import MapUbication from "../components/MapUbication.jsx";
+import Acordion from "../components/Acordion.jsx";
+import Services from "../components/home/Services.jsx";
+import BrandCarousel from "../components/home/BrandCarousel.jsx";
+import LayoutBase from "../layouts/LayoutBase.astro";
+---
+
+<LayoutBase>
+  <Hero />
+  <Header client:load />
+  <Services client:load />
+  <Consejos client:load />
+  <BrandCarousel client:load />
+  <Acordion client:load />
+  <MapUbication client:load />
+  <Whatsappcontainer />
+  <ChatBot client:load />
+</LayoutBase>

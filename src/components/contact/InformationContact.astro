@@ -1,0 +1,75 @@
+---
+import {
+  MapPin,
+  Clock,
+  Phone,
+  Mail,
+} from "lucide-astro";
+---
+
+<!-- Información de Contacto -->
+<div class="space-y-6">
+  <!-- Horarios -->
+  <div class="bg-white sweep-right-1">
+    <div class="flex items-start space-x-4 rounded-lg shadow-xl p-6 transition-transform duration-300 hover:translate-y-1">
+      <div class="bg-blue-100 p-3 rounded-full">
+        <Clock class="w-6 h-6 text-blue-600" />
+      </div>
+      <div>
+        <h4 class="text-lg font-bold text-gray-800 mb-2">
+          Horario de Atención
+        </h4>
+        <p class="text-gray-600">Lunes a Viernes: 8:00 AM - 6:00 PM</p>
+        <p class="text-gray-600">Sábados: 8:00 AM - 2:00 PM</p>
+        <p class="text-gray-600">Domingos: Cerrado</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Teléfono -->
+  <div class="bg-white sweep-right-2">
+    <div class="flex items-start space-x-4 rounded-lg shadow-xl p-6 transition-transform duration-300 hover:translate-y-1">
+      <div class="bg-blue-100 p-3 rounded-full">
+        <Phone class="w-6 h-6 text-blue-600" />
+      </div>
+      <div>
+        <h4 class="text-lg font-bold text-gray-800 mb-2">Teléfono</h4>
+        <p class="text-gray-600 text-xl font-semibold">(305) 555-0123</p>
+        <p class="text-gray-500 text-sm mt-1">WhatsApp disponible</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dirección -->
+  <div class="bg-white sweep-right-3">
+    <div class="flex items-start space-x-4 rounded-lg shadow-xl p-6 transition-transform duration-300 hover:translate-y-1">
+      <div class="bg-blue-100 p-3 rounded-full">
+        <MapPin class="w-6 h-6 text-blue-600" />
+      </div>
+      <div>
+        <h4 class="text-lg font-bold text-gray-800 mb-2">Ubicación</h4>
+        <p class="text-gray-600">Calle 45 #23-67</p>
+        <p class="text-gray-600">Barranquilla, Atlántico</p>
+        <a
+          href="https://maps.app.goo.gl/wB2Pfg5MiPGkRnet9"
+          class="text-blue-400 hover:text-blue-700 transition-all font-medium mt-2 inline-block"
+          >Ver en Google Maps →</a
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- Email -->
+  <div class="bg-white sweep-right-4">
+    <div class="flex items-start space-x-4 rounded-lg shadow-xl p-6 transition-transform duration-300 hover:translate-y-1">
+      <div class="bg-blue-100 p-3 rounded-full">
+        <Mail class="w-6 h-6 text-blue-600" />
+      </div>
+      <div>
+        <h4 class="text-lg font-bold text-gray-800 mb-2">Correo Electrónico</h4>
+        <p class="text-gray-600">info@tallermecanico.com</p>
+        <p class="text-gray-600">servicios@tallermecanico.com</p>
+      </div>
+    </div>
+  </div>
+</div>

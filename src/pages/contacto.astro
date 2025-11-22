@@ -1,0 +1,27 @@
+---
+import "../styles/main.css";
+import ChatBot from "../components/ChatBot.jsx";
+import HeaderContact from "../components/contact/HeaderContact.astro";
+import FormContact from "../components/contact/FormContact.astro";
+import InformationContact from "../components/contact/InformationContact.astro";
+import Whatsappcontainer from "../components/Whatsappcontainer.astro";
+import LayoutMajor from "../layouts/contact/LayoutContainerMajor.astro";
+import LayoutGroupForm from "../layouts/contact/LayoutGroupForm.astro";
+import MapUbication from "../components/MapUbication.jsx";
+import LayoutBase from "../layouts/LayoutBase.astro";
+import Header from "../components/Header";
+---
+
+<LayoutBase>
+  <Header client:load />
+  <LayoutMajor>
+    <HeaderContact />
+    <LayoutGroupForm>
+      <FormContact />
+      <InformationContact />
+    </LayoutGroupForm>
+  </LayoutMajor>
+  <MapUbication client:load />
+  <Whatsappcontainer />
+  <ChatBot client:load />
+</LayoutBase>

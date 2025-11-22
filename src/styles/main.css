@@ -1,0 +1,78 @@
+@import "leaflet/dist/leaflet.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --primary-color: #74777b;
+    --primary-dark: #0f3566;
+    --accent-color: #ff6b35;
+    --success-color: #00a86b;
+    --text-dark: #1e293b;
+    --text-light: #64748b;
+    --surface: #ffffff;
+    --background: #f8fafc;
+}
+
+body {
+  background-color: white;
+}
+
+input, textarea {
+  outline: none;
+}
+
+@keyframes slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(80px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-left {
+  animation: slide-left 0.3s ease-out;
+}
+
+/* float card animation - map */
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==== SCROLLBAR GLOBAL ==== */
+
+/* Para Chrome, Edge y Safari */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a; /* azul oscuro */
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #2563eb, #1d4ed8); /* azul suave */
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #1d4ed8, #1e40af);
+}
+
+/* Para Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2563eb #0f172a;
+}

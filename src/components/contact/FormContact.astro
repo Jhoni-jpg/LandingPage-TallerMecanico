@@ -1,0 +1,83 @@
+<!-- Formulario de Contacto -->
+<div class="bg-white rounded-lg shadow-xl p-8">
+  <h3 class="text-2xl text-center font-bold text-gray-500 mb-6 shine-effect">
+    Envíanos un Mensaje
+  </h3>
+  <form class="space-y-4">
+    <div class="input-sweep" style="animation-delay: 0.5s;">
+      <label for="nombre" class="block text-sm font-medium text-gray-500 mb-2"
+        >Nombre Completo</label
+      >
+      <input
+        type="text"
+        id="nombre"
+        name="nombre"
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-700"
+        placeholder="Tu nombre"
+        required
+      />
+    </div>
+
+    <div class="input-sweep" style="animation-delay: 0.65s;">
+      <label for="email" class="block text-sm font-medium text-gray-500 mb-2"
+        >Correo Electrónico</label
+      >
+      <input
+        type="email"
+        id="email"
+        name="email"
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-700"
+        placeholder="tu@email.com"
+        required
+      />
+    </div>
+
+    <div class="input-sweep" style="animation-delay: 0.8s;">
+      <label for="telefono" class="block text-sm font-medium text-gray-500 mb-2"
+        >Teléfono</label
+      >
+      <input
+        type="tel"
+        id="telefono"
+        name="telefono"
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-700"
+        placeholder="(300) 123-4567"
+        required
+      />
+    </div>
+
+    <div class="input-sweep" style="animation-delay: 0.95s;">
+      <label for="vehiculo" class="block text-sm font-medium text-gray-500 mb-2"
+        >Marca y Modelo del Vehículo</label
+      >
+      <input
+        type="text"
+        id="vehiculo"
+        name="vehiculo"
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-700"
+        placeholder="Ej: Toyota Corolla 2020"
+      />
+    </div>
+
+    <div class="input-sweep" style="animation-delay: 1.1s;">
+      <label for="mensaje" class="block text-sm font-medium text-gray-500 mb-2"
+        >Describe el Servicio que Necesitas</label
+      >
+      <textarea
+        id="mensaje"
+        name="mensaje"
+        rows="4"
+        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none transition-all duration-700"
+        placeholder="Cuéntanos qué necesita tu vehículo..."
+        required></textarea>
+    </div>
+
+    <button
+      type="submit"
+      class="w-full bg-blue-400 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300 transform hover:scale-105 input-sweep"
+      style="animation-delay: 1.25s;"
+    >
+      Enviar Mensaje
+    </button>
+  </form>
+</div>
