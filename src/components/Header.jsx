@@ -7,7 +7,7 @@ const Header = () => {
       <div className="nav-container">
         <a href="#" class="container logo">
           <img src={pageLogo.src} className="w-14 rounded-full shadow mr-6" alt="logoEmpresa" />
-          <h1 className="text-blue-400">AutoFix</h1>
+          <h1 className="text-blue-400">SwiftService</h1>
         </a>
         <ul className="nav-menu" id="navMenu">
           <li><a href="/">Inicio</a></li>

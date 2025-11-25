@@ -1,116 +1,88 @@
 import React, { useState, useEffect, useRef } from "react";
+import botLogo from '../assets/TorqueBot.jpg'
 
-// Datos del bot
-const botResponses = {
-  'agendar cita': {
-    text: '¡Perfecto! Para agendar tu cita necesito algunos datos. ¿Qué servicio necesitas?',
-    options: ['Cambio de aceite', 'Revisión de frenos', 'Mantenimiento general', 'Reparación específica']
-  },
-  'estado de mi vehículo': {
-    text: 'Para consultar el estado de tu vehículo, necesito tu número de orden de servicio. Por favor ingrésalo (formato: ORD-12345)',
-    options: ['No tengo el número', 'Contactar mecánico']
-  },
-  'servicios disponibles': {
-    text: '🔧 Estos son nuestros servicios principales:\n\n• Mantenimiento preventivo\n• Cambio de aceite y filtros\n• Sistema de frenos\n• Alineación y balanceo\n• Diagnóstico computarizado\n• Reparaciones mecánicas\n• Sistema eléctrico\n\n¿Cuál te interesa?',
-    options: ['Mantenimiento preventivo', 'Frenos', 'Alineación', 'Diagnóstico', 'Ver precios']
-  },
-  'cotización': {
-    text: 'Con gusto te ayudo con una cotización. ¿Qué servicio necesitas cotizar?',
-    options: ['Cambio de aceite', 'Frenos', 'Mantenimiento 10,000 km', 'Otro servicio']
-  },
-  'cambio de aceite': {
-    text: '🛢️ Cambio de Aceite:\n\n• Incluye: Aceite sintético, filtro y revisión de niveles\n• Tiempo estimado: 30-45 minutos\n• Precio desde: $85,000 COP\n\n¿Deseas agendar este servicio?',
-    options: ['Sí, agendar', 'Ver otros servicios', 'Preguntar por promociones']
-  },
-  'revisión de frenos': {
-    text: '🔴 Revisión de Frenos:\n\n• Inspección completa del sistema\n• Revisión de pastillas y discos\n• Diagnóstico sin costo\n• Precio reparación desde: $150,000 COP\n\n¿Cuándo puedes traer tu vehículo?',
-    options: ['Hoy mismo', 'Mañana', 'Esta semana', 'Elegir fecha']
-  },
-  'mantenimiento general': {
-    text: '⚙️ Mantenimiento General incluye:\n\n✓ Cambio de aceite y filtros\n✓ Revisión de frenos\n✓ Alineación y balanceo\n✓ Revisión de suspensión\n✓ 25 puntos de inspección\n\nPrecio: $280,000 COP\n\n¿Te interesa este paquete?',
-    options: ['Sí, agendemos', 'Ver solo mantenimiento básico', 'Consultar mecánico']
-  },
-  'reparación específica': {
-    text: '🔧 Para reparaciones específicas, cuéntame ¿qué problema tiene tu vehículo?',
-    options: ['Ruidos extraños', 'Luces en el tablero', 'Problema de motor', 'Hablar con mecánico']
-  },
-  'ver precios': {
-    text: '💰 Lista de Precios:\n\n• Cambio aceite: desde $85,000\n• Revisión frenos: desde $45,000\n• Alineación: $60,000\n• Balanceo: $40,000\n• Mantenimiento 10k: $220,000\n• Diagnóstico: $35,000\n\n*Precios pueden variar según marca/modelo',
-    options: ['Agendar servicio', 'Consultar garantía', 'Hablar con asesor']
-  },
-  'no tengo el número': {
-    text: 'No te preocupes. Puedo buscar tu orden con:\n\n• Número de placa del vehículo\n• Tu nombre y teléfono\n• Fecha aproximada del servicio\n\n¿Cómo prefieres buscar?',
-    options: ['Por placa', 'Por nombre', 'Llamar al taller']
-  },
-  'mantenimiento preventivo': {
-    text: '✅ Mantenimiento Preventivo:\n\n📋 Incluye 25 puntos de inspección\n🛢️ Cambio de aceite y filtro\n🔍 Revisión de fluidos\n⚙️ Inspección de frenos\n🔧 Ajustes necesarios\n\nPrecio: $220,000 COP\nTiempo: 2-3 horas',
-    options: ['Agendar ahora', 'Ver qué incluye', 'Preguntar por garantía']
-  },
-  'frenos': {
-    text: '🔴 Servicios de Frenos:\n\n• Revisión diagnóstico: GRATIS\n• Cambio pastillas: desde $120,000\n• Cambio discos: desde $280,000\n• Paquete completo: desde $380,000\n\n¿Qué servicio necesitas?',
-    options: ['Solo revisión', 'Cambio pastillas', 'Paquete completo', 'Agendar']
-  },
-  'alineación': {
-    text: '⚖️ Alineación y Balanceo:\n\n• Alineación computarizada: $60,000\n• Balanceo 4 llantas: $40,000\n• Paquete combo: $90,000\n• Incluye reporte impreso\n\nTiempo estimado: 45 minutos',
-    options: ['Agendar combo', 'Solo alineación', 'Solo balanceo', 'Volver']
-  },
-  'diagnóstico': {
-    text: '💻 Diagnóstico Computarizado:\n\n• Scanner automotriz profesional\n• Lectura de códigos de error\n• Reporte detallado\n• Recomendaciones del mecánico\n\nPrecio: $35,000 COP\nTiempo: 30 minutos',
-    options: ['Agendar diagnóstico', 'Incluir en otro servicio', 'Consultar mecánico']
-  },
-  'ruidos extraños': {
-    text: '👂 Ruidos en el vehículo pueden indicar varios problemas. ¿De dónde proviene el ruido?',
-    options: ['Motor', 'Frenos', 'Suspensión', 'No estoy seguro']
-  },
-  'luces en el tablero': {
-    text: '⚠️ Las luces del tablero requieren atención. ¿Qué luz está encendida?',
-    options: ['Check Engine', 'Frenos (ABS)', 'Batería', 'Aceite', 'Otra luz']
-  },
-  'check engine': {
-    text: '🔍 La luz Check Engine requiere diagnóstico inmediato.\n\n⚠️ No ignores esta alerta\n💻 Necesitamos conectar el scanner\n🔧 Puede ser desde algo simple hasta serio\n\nDiagnóstico: $35,000 COP\n\n¿Puedes venir hoy?',
-    options: ['Sí, voy hoy', 'Agendar para mañana', 'Es urgente - llamar']
-  },
-  'hablar con mecánico': {
-    text: '👨‍🔧 Te conectaré con nuestro mecánico especializado. Por favor espera un momento...\n\nMientras tanto, ¿puedes compartir:\n• Marca y modelo del vehículo\n• Año\n• Kilometraje actual',
-    options: ['Tengo la info', 'Necesito ayuda urgente', 'Cancelar']
-  },
-  'sí, agendar': {
-    text: '📅 ¡Excelente! ¿Qué día te viene mejor?\n\nHorarios disponibles:\n• Lunes a Viernes: 7:00 AM - 6:00 PM\n• Sábados: 8:00 AM - 2:00 PM\n\nTiempo aproximado: Te contactaremos para confirmar',
-    options: ['Hoy', 'Mañana', 'Esta semana', 'Próxima semana']
-  },
-  'hoy': {
-    text: '¡Perfecto! Tenemos disponibilidad hoy. ¿A qué hora puedes traer tu vehículo?\n\nHorarios disponibles hoy:\n• 10:00 AM\n• 2:00 PM\n• 4:00 PM',
-    options: ['10:00 AM', '2:00 PM', '4:00 PM', 'Otra hora']
-  },
-  'preguntar por promociones': {
-    text: '🎉 Promociones Vigentes:\n\n✅ Mantenimiento 10k: 15% descuento\n✅ Combo Alineación + Balanceo: $90,000 (ahorra $10,000)\n✅ Cliente frecuente: Diagnóstico GRATIS\n✅ Referidos: 10% descuento en siguiente servicio\n\n*Válido hasta fin de mes',
-    options: ['Aplicar promoción', 'Ver servicios', 'Agendar con descuento']
-  },
-  'gracias': {
-    text: '¡De nada! En AutoExpert estamos para servirte. 🚗\n\n¿Necesitas algo más?',
-    options: ['Sí, otra consulta', 'Agendar cita', 'Información de contacto', 'No, es todo']
-  },
-  'información de contacto': {
-    text: '📞 Contáctanos:\n\n📍 Dirección: Calle 45 #23-67, Bogotá\n☎️ Teléfono: (1) 234-5678\n📱 WhatsApp: 300 123 4567\n✉️ Email: info@autoexpert.com\n\n🕐 Horarios:\nLun-Vie: 7:00 AM - 6:00 PM\nSábados: 8:00 AM - 2:00 PM',
-    options: ['Agendar cita', 'Ver servicios', 'Cómo llegar', 'Volver al inicio']
-  },
-  'default': {
-    text: '🔧 Soy el asistente de AutoExpert Taller. ¿En qué puedo ayudarte?',
-    options: ['Agendar cita', 'Estado de mi vehículo', 'Servicios disponibles', 'Cotización']
-  }
-};
-
-const Chatbot = () => {
+const Chatbot = ({ isOpen: externalIsOpen, onClose: externalOnClose }) => {
   const [messages, setMessages] = useState([]);
   const [isTyping, setIsTyping] = useState(false);
   const [input, setInput] = useState("");
-  const [open, setOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // Auto scroll al final
+  // Combina el control interno y externo
+  const isOpen = externalIsOpen !== undefined ? externalIsOpen : internalOpen;
+  
+  const handleClose = () => {
+    if (externalOnClose) {
+      externalOnClose();
+    } else {
+      setInternalOpen(false);
+    }
+  };
+
+  const handleToggle = () => {
+    setInternalOpen(!internalOpen);
+  };
+
+  const botResponses = {
+    'agendar cita': {
+      text: '¡Perfecto! Para agendar tu cita necesito algunos datos. ¿Qué servicio necesitas?',
+      options: ['Cambio de aceite', 'Revisión de frenos', 'Mantenimiento general', 'Reparación específica']
+    },
+    'estado de mi vehículo': {
+      text: 'Para consultar el estado de tu vehículo, necesito tu número de orden de servicio. Por favor ingrésalo (formato: ORD-12345)',
+      options: ['No tengo el número', 'Contactar mecánico']
+    },
+    'servicios disponibles': {
+      text: '🔧 Estos son nuestros servicios principales:\n\n• Mantenimiento preventivo\n• Cambio de aceite y filtros\n• Sistema de frenos\n• Alineación y balanceo\n• Diagnóstico computarizado\n• Reparaciones mecánicas\n• Sistema eléctrico\n\n¿Cuál te interesa?',
+      options: ['Mantenimiento preventivo', 'Frenos', 'Alineación', 'Diagnóstico', 'Ver precios']
+    },
+    'cotización': {
+      text: 'Con gusto te ayudo con una cotización. ¿Qué servicio necesitas cotizar?',
+      options: ['Cambio de aceite', 'Frenos', 'Mantenimiento 10,000 km', 'Otro servicio']
+    },
+    'cambio de aceite': {
+      text: '🛢️ Cambio de Aceite:\n\n• Incluye: Aceite sintético, filtro y revisión de niveles\n• Tiempo estimado: 30-45 minutos\n• Precio desde: $85,000 COP\n\n¿Deseas agendar este servicio?',
+      options: ['Sí, agendar', 'Ver otros servicios', 'Preguntar por promociones']
+    },
+    'revisión de frenos': {
+      text: '🔴 Revisión de Frenos:\n\n• Inspección completa del sistema\n• Revisión de pastillas y discos\n• Diagnóstico sin costo\n• Precio reparación desde: $150,000 COP\n\n¿Cuándo puedes traer tu vehículo?',
+      options: ['Hoy mismo', 'Mañana', 'Esta semana', 'Elegir fecha']
+    },
+    'mantenimiento general': {
+      text: '⚙️ Mantenimiento General incluye:\n\n✓ Cambio de aceite y filtros\n✓ Revisión de frenos\n✓ Alineación y balanceo\n✓ Revisión de suspensión\n✓ 25 puntos de inspección\n\nPrecio: $280,000 COP\n\n¿Te interesa este paquete?',
+      options: ['Sí, agendemos', 'Ver solo mantenimiento básico', 'Consultar mecánico']
+    },
+    'reparación específica': {
+      text: '🔧 Para reparaciones específicas, cuéntame ¿qué problema tiene tu vehículo?',
+      options: ['Ruidos extraños', 'Luces en el tablero', 'Problema de motor', 'Hablar con mecánico']
+    },
+    'ver precios': {
+      text: '💰 Lista de Precios:\n\n• Cambio aceite: desde $85,000\n• Revisión frenos: desde $45,000\n• Alineación: $60,000\n• Balanceo: $40,000\n• Mantenimiento 10k: $220,000\n• Diagnóstico: $35,000\n\n*Precios pueden variar según marca/modelo',
+      options: ['Agendar servicio', 'Consultar garantía', 'Hablar con asesor']
+    },
+    'no tengo el número': {
+      text: 'No te preocupes. Puedo buscar tu orden con:\n\n• Número de placa del vehículo\n• Tu nombre y teléfono\n• Fecha aproximada del servicio\n\n¿Cómo prefieres buscar?',
+      options: ['Por placa', 'Por nombre', 'Llamar al taller']
+    },
+    'default': {
+      text: '🔧 Soy el asistente de AutoExpert Taller. ¿En qué puedo ayudarte?',
+      options: ['Agendar cita', 'Estado de mi vehículo', 'Servicios disponibles', 'Cotización']
+    }
+  };
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
+
+  useEffect(() => {
+    if (isOpen && messages.length === 0) {
+      addMessage({
+        text: "¡Hola! 👋 Bienvenido a AutoExpert Taller Mecánico. Soy TorqueBot, tu asistente virtual. ¿En qué puedo ayudarte hoy?",
+        sender: "bot",
+        options: ["Agendar cita", "Estado de mi vehículo", "Servicios disponibles", "Cotización"],
+      });
+    }
+  }, [isOpen]);
 
   const addMessage = (message) => {
     const time = new Date().toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
@@ -152,6 +124,7 @@ const Chatbot = () => {
   };
 
   const handleSend = () => {
+    if (!input.trim()) return;
     addMessage({ text: input, sender: "user" });
     setInput("");
     setIsTyping(true);
@@ -172,23 +145,12 @@ const Chatbot = () => {
     }, 1500);
   };
 
-  const toggleChat = () => {
-    setOpen(!open);
-    if (!open && messages.length === 0) {
-      addMessage({
-        text: "¡Hola! 👋 Bienvenido a AutoExpert Taller Mecánico. Soy Cars, tu asistente virtual. ¿En qué puedo ayudarte hoy?",
-        sender: "bot",
-        options: ["Agendar cita", "Estado de mi vehículo", "Servicios disponibles", "Cotización"],
-      });
-    }
-  };
-
   return (
     <div className="fixed bottom-6 right-6 z-50">
-      {/* Botón flotante */}
-      {!open && (
+      {/* Botón flotante - solo visible cuando NO está abierto */}
+      {!isOpen && (
         <button
-          onClick={toggleChat}
+          onClick={handleToggle}
           className="w-16 h-16 bg-blue-600 rounded-full shadow-2xl flex items-center justify-center text-white hover:scale-110 transition-transform duration-300 animate-bounce hover:animate-none"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -198,19 +160,16 @@ const Chatbot = () => {
       )}
 
       {/* Ventana de chat */}
-      {open && (
+      {isOpen && (
         <div className="w-[380px] sm:w-[400px] bg-white rounded-2xl shadow-2xl overflow-hidden flex flex-col h-[600px] transition-all duration-300">
           {/* Header */}
           <div className="bg-blue-600 p-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                </svg>
+                <img src={botLogo.src} className="w-full h-full rounded-full" alt="logotipo de bot" />
               </div>
               <div>
-                <h3 className="text-white font-bold text-lg">Cars</h3>
+                <h3 className="text-white font-bold text-lg">TorqueBot</h3>
                 <div className="flex items-center gap-1">
                   <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                   <span className="text-blue-100 text-xs">En línea</span>
@@ -218,8 +177,7 @@ const Chatbot = () => {
               </div>
             </div>
             <div className="flex gap-2">
-              <button onClick={toggleChat} className="text-white hover:bg-white/20 p-2 rounded-lg transition">
-                {/* Icono cerrar */}
+              <button onClick={handleClose} className="text-white hover:bg-white/20 p-2 rounded-lg transition">
                 <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <line x1="18" y1="6" x2="6" y2="18"></line>
                   <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -235,21 +193,18 @@ const Chatbot = () => {
               return (
                 <div key={idx} className={`flex ${isUser ? "justify-end" : "justify-start"} mb-2`}>
                   <div className={`flex gap-2 max-w-[80%] ${isUser ? "flex-row-reverse" : "flex-row"}`}>
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${isUser ? "bg-gradient-to-br from-purple-500 to-pink-500" : "bg-gradient-to-br from-blue-500 to-indigo-500"}`}>
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${isUser && "bg-blue-500"}`}>
                       {isUser ? (
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                           <circle cx="12" cy="7" r="4"></circle>
                         </svg>
                       ) : (
-                        <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                        </svg>
+                        <img src={botLogo.src} className="w-full h-full rounded-full" alt="logotipo de bot" />
                       )}
                     </div>
                     <div>
-                      <div className={`rounded-2xl px-4 py-3 ${isUser ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-tr-none" : "bg-white text-gray-800 shadow-md rounded-tl-none border border-gray-100"}`}>
+                      <div className={`rounded-2xl px-4 py-3 ${isUser ? "bg-blue-600 text-white rounded-tr-none" : "bg-white text-gray-800 shadow-md rounded-tl-none border border-gray-100"}`}>
                         <p className="text-sm whitespace-pre-line leading-relaxed">{msg.text}</p>
                       </div>
                       <span className={`text-xs text-gray-500 mt-1 block ${isUser ? "text-right" : "text-left"}`}>{msg.time}</span>
@@ -276,10 +231,7 @@ const Chatbot = () => {
               <div className="flex justify-start mb-2">
                 <div className="flex gap-2">
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center flex-shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                      <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                    </svg>
+                    <img src={botLogo.src} className="w-full h-full rounded-full" alt="logotipo de bot" />
                   </div>
                   <div className="bg-white rounded-2xl rounded-tl-none px-4 py-3 shadow-md border border-gray-100">
                     <div className="flex gap-1">
@@ -317,45 +269,6 @@ const Chatbot = () => {
           </div>
         </div>
       )}
-
-
-      <style>{`
-       /* Animaciones personalizadas */
- @keyframes bounce {
-
-     0%,
-     100% {
-         transform: translateY(0);
-     }
-
-     50% {
-         transform: translateY(-10px);
-     }
- }
-
- #open-chat:hover {
-     animation: none;
- }
-
- /* Scrollbar personalizado */
- #messages-container::-webkit-scrollbar {
-     width: 6px;
- }
-
- #messages-container::-webkit-scrollbar-track {
-     background: #f1f1f1;
-     border-radius: 10px;
- }
-
- #messages-container::-webkit-scrollbar-thumb {
-     background: #cbd5e1;
-     border-radius: 10px;
- }
-
- #messages-container::-webkit-scrollbar-thumb:hover {
-     background: #94a3b8;
- }
-      `}</style>
     </div>
   );
 };
