@@ -36,7 +36,7 @@ export default function FAQ() {
   };
 
   return (
-    <section className="relative py-20 overflow-hidden">
+    <section id="preguntasFrecuentes" className="relative py-20 overflow-hidden">
       {/* Fondo con imagen */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"

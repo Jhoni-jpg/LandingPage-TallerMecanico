@@ -7,13 +7,13 @@ const Header = () => {
       <div className="nav-container">
         <a href="#" class="container logo">
           <img src={pageLogo.src} className="w-14 rounded-full shadow mr-6" alt="logoEmpresa" />
-          <h1 className="text-blue-400">AutoFix</h1>
+          <h1 className="text-blue-400">SwiftService</h1>
         </a>
         <ul className="nav-menu" id="navMenu">
           <li><a href="/">Inicio</a></li>
           <li><a href="#nosotros">Nosotros</a></li>
           <li><a href="/servicios">Servicios</a></li>
-          <li><a className='pointer-events-none opacity-50 cursor-not-allowed' href="/pintura">Pintura</a></li>
+          <li><a href="/pinturas">Pintura</a></li>
           <li><a href="/contacto">Contacto</a></li>
           <button className="cta-button" onClick={() => {
             window.location.href = '#cotizar';

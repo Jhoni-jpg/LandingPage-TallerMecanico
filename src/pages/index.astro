@@ -1,6 +1,6 @@
 ---
 import "../styles/main.css";
-import ChatBot from "../components/ChatBot.jsx";
+import Chatbot from "../components/ChatBot.jsx";
 import Header from "../components/Header.jsx";
 import Consejos from "../components/home/Consejos.jsx";
 import Hero from "../components/home/Hero.astro";
@@ -10,6 +10,7 @@ import Acordion from "../components/Acordion.jsx";
 import Services from "../components/home/Services.jsx";
 import BrandCarousel from "../components/home/BrandCarousel.jsx";
 import LayoutBase from "../layouts/LayoutBase.astro";
+import HowItWorks from "../components/home/How.jsx";
 ---
 
 <LayoutBase>
@@ -18,8 +19,9 @@ import LayoutBase from "../layouts/LayoutBase.astro";
   <Services client:load />
   <Consejos client:load />
   <BrandCarousel client:load />
+  <HowItWorks client:load />
   <Acordion client:load />
   <MapUbication client:load />
   <Whatsappcontainer />
-  <ChatBot client:load />
+  <Chatbot client:load />
 </LayoutBase>
