@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const API_URL = "http://localhost:8000"; // Cambia esto si tu API está en otra URL
+const API_URL = "http://localhost:8000";
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
@@ -22,7 +22,6 @@ const Chatbot = () => {
     setMessages((prev) => [...prev, { ...message, time }]);
   };
 
-  // ESTA ES LA PARTE IMPORTANTE - Conectar con tu API
   const sendToAPI = async (userMessage) => {
     try {
       const response = await fetch(`${API_URL}/api/chat`, {
@@ -330,4 +329,3 @@ const Chatbot = () => {
 };
 
 export default Chatbot;
-
