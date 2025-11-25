@@ -1,14 +1,14 @@
 ---
-import Chatbot from "../components/ChatBot.jsx";
+import Chatbot from "../components/ChatBot";
+import Header from "../components/Header";
 import Whatsappcontainer from "../components/Whatsappcontainer.astro";
 import LayoutBase from "../layouts/LayoutBase.astro";
-import ServicesLayout from "../layouts/services/LayoutServices.jsx";
-import Header from "../components/Header";
+import PrincipalPaintings from "../components/paintings/PrincipalPaintings.astro";
 ---
 
 <LayoutBase>
   <Header client:load />
-  <ServicesLayout client:load />
+  <PrincipalPaintings />
   <Whatsappcontainer />
   <Chatbot client:load />
 </LayoutBase>

@@ -13,7 +13,7 @@ const Header = () => {
           <li><a href="/">Inicio</a></li>
           <li><a href="#nosotros">Nosotros</a></li>
           <li><a href="/servicios">Servicios</a></li>
-          <li><a className='pointer-events-none opacity-50 cursor-not-allowed' href="/pintura">Pintura</a></li>
+          <li><a href="/pinturas">Pintura</a></li>
           <li><a href="/contacto">Contacto</a></li>
           <button className="cta-button" onClick={() => {
             window.location.href = '#cotizar';
